@@ -99,8 +99,16 @@ func MakeCustomer(name string, token string, lending int) *Customer {
 		NetAnnual: 0,
     }
 	customerIDCounter += 1
+//	cust.init()
     return cust
 }
+
+/*
+func (c *Customer) init() {
+	c.GetAccounts
+}
+*/
+
 // Get all accounts for the customerID
 func (c *Customer) GetAccounts(cid string) *[]CustomerAccount {
     var accounts = new(CustomerAccountResults)
@@ -132,6 +140,20 @@ func (c* Customer) getCustomerID() string {
     return cr.Results[0].Id
 }
 
+// Get Customer given Name and ID
+func (c* Customer) getCustomerInfo() *CustomerResult {
+	var cr = new(CustomerResults)
+    endpoint := fmt.Sprintf("%s/customers", apiLocation)
+    body := c.makeAPICall(endpoint)
+    jsonErr := json.Unmarshal(body, &cr)
+    if jsonErr != nil {
+        log.Fatal(jsonErr)
+	}
+	res := cr.Results
+	fmt.Println(res)
+	return &(res[0])
+
+}
 
 // Get Transactions for last year
 func (c *Customer) GetTransactionsLastYear(account string) []TransactionResult {
