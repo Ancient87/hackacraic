@@ -172,6 +172,7 @@ func (c *Customer) GetNetLastYear() int {
 		yearNet := c.GetNetLastYearForAccount(acc.Cid)
 		totalNet += yearNet
 	}
+	// Test 
 	return totalNet
 }
 
