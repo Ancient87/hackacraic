@@ -1,0 +1,18 @@
+package main 
+
+import (
+    "testing"
+)
+
+func TestMarket(t *testing.T) {
+    c1 := MakeCustomer("IvySaur", "", 10)
+    v1 := vendors[0]
+    testJudgment(t, v1, c1)
+}
+
+// Test 
+func testJudgment(t *testing.T, v *Vendor, c *Customer) {
+    // Judge customer by vendor
+    judgement := v.Judge(c)
+    t.Logf("Judgement for %s against %s : %s", c.Name, v.Name, judgement)
+}
