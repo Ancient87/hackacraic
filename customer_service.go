@@ -39,6 +39,7 @@ type Customer struct {
     Name string `json: "name"`
     Requester *Requester
     Lending int `json: "lending"`
+	NetAnnual	int `json: "annual"`
 }
 
 type customerID struct {
@@ -95,6 +96,7 @@ func MakeCustomer(name string, token string, lending int) *Customer {
         Name: name,
         Requester: reqHeader,
         Lending: lending,
+		NetAnnual: 0,
     }
 	customerIDCounter += 1
     return cust
@@ -148,6 +150,9 @@ func (c *Customer) GetTransactionsLastYear(account string) []TransactionResult {
 
 // Get net result for last year
 func (c *Customer) GetNetLastYearForAccount(account string) int {
+	// Super LAME caching because it takes too long to recompute multiple times
+	if c.NetAnnual != 0 { return c.NetAnnual }
+	// Otherwise let's do this thanks
 	tr := c.GetTransactionsLastYear(account)
 	net := 0.0
 	// Sum transactions of last year
@@ -157,6 +162,7 @@ func (c *Customer) GetNetLastYearForAccount(account string) int {
 		//id := t.Id
 		net += amount
 	}
+	c.NetAnnual = int(net)
 	return int(net)
 }
 
