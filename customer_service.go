@@ -126,6 +126,22 @@ func (c *Customer) GetAccounts(cid string) *[]CustomerAccount {
 	return &accounts.Results
 }
 
+/*
+// Gets the customer account basic info
+func (c *Customer) GetAccountInfo(cid string) *CustomerAccountResult {
+	var accounts = new(CustomerAccountResults)
+    endpoint := fmt.Sprintf("%s/customers/%s/accounts", apiLocation, cid)
+    //fmt.Println("Endpoint queries for GetAccounts %s", endpoint)
+	body := c.makeAPICall(endpoint)
+    //fmt.Printf("Get accounts response %s \n", body)
+    jsonErr := json.Unmarshal(body, &accounts)
+    if jsonErr != nil {
+        log.Fatal(jsonErr)
+	}
+	return accounts
+}
+*/
+
 // Get all Customer IDs authorized for
 func (c* Customer) getCustomerID() string {
     var cr = new(CustomerResults)

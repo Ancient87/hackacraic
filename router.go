@@ -75,11 +75,14 @@ func renderDash(wr http.ResponseWriter, req *http.Request, r *mux.Router, c *Cus
 	// Cust Result
 	dbv := new(DashBoardView)
 	cr := c.getCustomerInfo()
+	ca := c.GetAccounts(c.getCustomerID())
+	dbv.Accounts = ca
 	cats := new([]*CategoryView)
 	// Loop through all categories and build the struct
-	for _, cat := range categories {
+	for i, cat := range categories {
 		cv  := new(CategoryView)
 		cv.Name = cat.Name
+		cv.Path = fmt.Sprintf("/categories/%d", i)
 		var vs = make([]string, 0, 20)
 		for _, v := range cat.Vendors {
 			vs = append(vs, v.Name)
@@ -95,6 +98,7 @@ func renderDash(wr http.ResponseWriter, req *http.Request, r *mux.Router, c *Cus
 
 type DashBoardView struct {
 	Info *CustomerResult `json:"info"`
+	Accounts *[]CustomerAccount `json:"accounts"`
 	Categories []*CategoryView `json:"categories"`
 }
 
